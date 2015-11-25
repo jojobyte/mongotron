@@ -23,14 +23,23 @@ angular.module('app').run([
     $rootScope.themes = initThemes();
     $rootScope.setTitle = setTitle;
     $rootScope.currentQuery = null;
+    $rootScope.showAddConnections = _showAddConnections;
     $rootScope.showConnections = showConnections;
     $rootScope.showSettings = showSettings;
+    $rootScope.showLogs = showLogs;
+    $rootScope.hideSlideOutPanel = _hideSlideOutPanel;
 
     setTitle(pageTitle);
 
-    showConnections();
+    function initThemes() {
+      return {
+        //current: 'default',
+        // current: 'isotope-ui',
+        current: 'atom'
+      };
+    }
 
-    $rootScope.showLogs = function($event) {
+    function showLogs($event) {
       if ($event) $event.preventDefault();
 
       var logsTabName = 'Logs';
@@ -45,14 +54,6 @@ angular.module('app').run([
       } else {
         tabCache.activateByName(logsTabName);
       }
-    };
-
-    function initThemes() {
-      return {
-        //current: 'default',
-        // current: 'isotope-ui',
-        current: 'atom'
-      };
     }
 
     function showConnections(state, $event) {
@@ -84,6 +85,23 @@ angular.module('app').run([
 
     function setTitle(title) {
       ipc.send('set-title', title);
+    }
+
+    function _showAddConnections($event) {
+      if ($event) $event.preventDefault();
+
+      _showSlideOutPanel({
+        templateUrl: __dirname + '/components/addConnections/addConnections.html',
+        controller: 'addConnectionsCtrl'
+      });
+    }
+
+    function _showSlideOutPanel(options) {
+      $rootScope.slideOutPanel = options;
+    }
+
+    function _hideSlideOutPanel() {
+      $rootScope.slideOutPanel = null;
     }
   }
 ]);

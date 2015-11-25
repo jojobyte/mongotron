@@ -68,6 +68,7 @@
   <script src="./services/dialogService.js"></script>
   <script src="./services/tabCache.js"></script>
   <script src="./components/connect/connectCtrl.js"></script>
+  <script src="./components/addConnections/addConnectionsCtrl.js"></script>
   <script src="./components/addDatabase/addDatabaseCtrl.js"></script>
   <script src="./components/addCollection/addCollectionCtrl.js"></script>
   <script src="./components/settings/settingsCtrl.js"></script>
@@ -98,8 +99,18 @@
         <sidenav></sidenav>
         <sidebar></sidebar>
       </div>
-      <div class="content-wrapper">
+      <div class="content-wrapper" ng-class="{ 'slide-out-panel-open' : slideOutPanel }">
         <div class="content">
+          <div class="slide-out-panel" ng-if="slideOutPanel" keybinding-context="mongotron-slide-out-panel">
+            <div class="back-btn">
+              <span class="back" ng-click="hideSlideOutPanel($event)">
+                <i class="fa fa-chevron-left"></i> Back
+              </span>
+            </div>
+            <div class="slide-panel clearfix" ng-include="slideOutPanel.templateUrl">
+
+            </div>
+          </div>
           <tab-view keybinding-context="mongotron-tab-view"></tab-view>
         </div>
       </div>

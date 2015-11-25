@@ -1,0 +1,22 @@
+<div id="add-connections" ng-controller="addConnectionsCtrl">
+  <div class="connect-server-list" ng-show="currentScreen === screens.LIST">
+    <ul>
+      <div class="alert alert-info" ng-show="!connections.length">
+        Your don't have any connections yet. Use the Add button to create a new connection.
+      </div>
+      <li ng-repeat="connection in connections" ng-class="{ 'connected' : isConnected(connection) }" ng-show="connections.length">
+        <a class="name" href="#" ng-click="connect(connection, $event)">
+          <i class="icon-connected fa fa-check-circle-o"></i> {{ connection.name }}
+        </a>
+        <span class="links">
+          <a class="edit" href="#" ng-click="changeScreen(screens.EDIT, connection, $event)" uib-tooltip="Edit Connection" tooltip-popup-delay="600">
+            <i class="fa fa-pencil"></i>
+          </a>
+          <a class="remove" href="#" ng-click="changeScreen(screens.REMOVE, connection, $event)" uib-tooltip="Delete Connection" tooltip-popup-delay="600">
+            <i class="fa fa-times"></i>
+          </a>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>

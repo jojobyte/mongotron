@@ -82,13 +82,52 @@
     width: 100%;
     height: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
+    &.slide-out-panel-open {
+      .content {
+        .slide-out-panel {
+          left: 0;
+        }
+        .tab-view {
+          left: 100%;
+        }
+      }
+    }
     .content {
       position: relative;
       top: 0;
       right: 0;
       width: 100%;
       height: 100%;
-      padding: 10px 10px 10px 0;
+      padding: 0;
+      .slide-out-panel {
+        border: 1px solid @theme-border-color;
+        padding: 15px;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 100%;
+        height: 100%;
+        .transition(.2s ease);
+        .back-btn {
+          padding-bottom: 15px;
+          .back {
+            display: block;
+            cursor: pointer;
+          }
+        }
+        .slide-panel {
+
+        }
+      }
+      .tab-view {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        .transition(.2s ease);
+      }
     }
   }
 }
