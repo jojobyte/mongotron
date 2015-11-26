@@ -1,20 +1,24 @@
-<div id="connect">
-  <div class="modal-header modal-header-w-icon clearfix">
-    <h3 class="pull-left">
-      <i class="fa fa-server"></i> {{ currentScreen.name }}
-    </h3>
-    <i class="close fa fa-plus rotate-45" ng-click="close()"></i>
+<div id="connect" ng-controller="connectCtrl">
+  <div class="connect-sidebar col-xs-3">
+    <ul>
+      <li ng-click="currentPage = 'list'" ng-class="{ active : currentPage === 'list' }">
+        <i class="fa fa-cog"></i>Manage
+      </li>
+      <li ng-click="currentPage = 'add'" ng-class="{ active : currentPage === 'add' }">
+        <i class="fa fa-keyboard-o"></i>Add
+      </li>
+    </ul>
   </div>
-  <div class="modal-body">
+  <div class="connect-content">
     <div class="clearfix top-links">
       <div class="pull-right">
-        <a href="#" class="add-link" ng-click="changeScreen(screens.ADD, null, $event)">
+        <a href="#" class="add-link" ng-click="currentPage === 'add'">
           <i class="fa fa-plus"></i> Add
         </a>
       </div>
     </div>
     <!-- Server List -->
-    <div class="connect-server-list" ng-show="currentScreen === screens.LIST">
+    <div class="connect-server-list" ng-show="currentPage === 'list'">
       <ul>
         <div class="alert alert-info" ng-show="!connections.length">
           Your don't have any connections yet. Use the Add button to create a new connection.
@@ -24,10 +28,10 @@
             <i class="icon-connected fa fa-check-circle-o"></i> {{ connection.name }}
           </a>
           <span class="links">
-            <a class="edit" href="#" ng-click="changeScreen(screens.EDIT, connection, $event)" uib-tooltip="Edit Connection" tooltip-popup-delay="600">
+            <a class="edit" href="#" ng-click="currentPage === 'edit'; currentConnection = connection;" uib-tooltip="Edit Connection" tooltip-popup-delay="600">
               <i class="fa fa-pencil"></i>
             </a>
-            <a class="remove" href="#" ng-click="changeScreen(screens.REMOVE, connection, $event)" uib-tooltip="Delete Connection" tooltip-popup-delay="600">
+            <a class="remove" href="#" ng-click="currentPage === 'remove'; currentConnection = connection;" uib-tooltip="Delete Connection" tooltip-popup-delay="600">
               <i class="fa fa-times"></i>
             </a>
           </span>
@@ -35,7 +39,7 @@
       </ul>
     </div>
     <!-- Server Add -->
-    <div class="server-add clearfix" ng-show="currentScreen === screens.ADD">
+    <div class="server-add clearfix" ng-show="currentPage === 'add'">
       <form class="form-horizontal" name="addForm" novalidate>
         <div class="form-group" ng-class="{ 'has-error' : !addForm.name.$valid && addConnectionFormSubmitted }">
           <label class="col-sm-4 control-label">Connection Name</label>
@@ -76,7 +80,7 @@
       </form>
     </div>
     <!-- Server Edit -->
-    <div class="server-edit clearfix" ng-show="currentScreen === screens.EDIT">
+    <div class="server-edit clearfix" ng-show="currentPage === 'edit'">
       <form class="form-horizontal" name="editConnectionForm" novalidate>
         <div class="form-group">
           <label class="col-sm-2 control-label">Name</label>
@@ -99,14 +103,14 @@
       </form>
     </div>
     <!-- Server Remove -->
-    <div class="server-remove clearfix" ng-show="currentScreen === screens.REMOVE">
+    <div class="server-remove clearfix" ng-show="currentPage === 'remove'">
       <div class="alert alert-danger">
         Are you sure you want to remove the connection
         <strong>'{{ selectedConnection.name }}'</strong>?
       </div>
     </div>
   </div>
-  <div class="modal-footer">
+  <div class="">
     <p class="center">
       <!-- Server List -->
       <div class="list-buttons" ng-show="currentScreen === screens.LIST">
@@ -117,7 +121,7 @@
 
       <!-- Server Add -->
       <div class="add-buttons" ng-show="currentScreen === screens.ADD">
-        <button class="btn btn-default col-xs-4 col-xs-offset-2" type="button" ng-click="changeScreen(screens.LIST, null, $event)">
+        <button class="btn btn-default col-xs-4 col-xs-offset-2" type="button" ng-click="currentPage === 'list'">
           Cancel
         </button>
         <button class="btn btn-primary col-xs-4" type="button" ng-click="addConnection(addForm, $event)">
@@ -127,7 +131,7 @@
 
       <!-- Server Remove -->
       <div class="remove-buttons" ng-show="currentScreen === screens.REMOVE">
-        <button class="btn btn-default col-xs-4 col-xs-offset-2" type="button" ng-click="changeScreen(screens.LIST, null, $event)">
+        <button class="btn btn-default col-xs-4 col-xs-offset-2" type="button" ng-click="currentPage === 'list'">
           Cancel
         </button>
         <button class="btn btn-primary col-xs-4" type="button" ng-click="removeConnection(selectedConnection, $event)">
@@ -137,7 +141,7 @@
 
       <!-- Server Edit -->
       <div class="edit-buttons" ng-show="currentScreen === screens.EDIT">
-        <button class="btn btn-default col-xs-4 col-xs-offset-2" type="button" ng-click="changeScreen(screens.LIST, null, $event)">
+        <button class="btn btn-default col-xs-4 col-xs-offset-2" type="button" ng-click="currentPage === 'list'">
           Cancel
         </button>
         <button class="btn btn-primary col-xs-4" type="button" ng-click="editConnection(editConnectionForm, $event)">

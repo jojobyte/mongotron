@@ -28,8 +28,6 @@ angular.module('app').run([
 
     setTitle(pageTitle);
 
-    showConnections();
-
     $rootScope.showLogs = function($event) {
       if ($event) $event.preventDefault();
 
@@ -58,11 +56,18 @@ angular.module('app').run([
     function showConnections(state, $event) {
       if ($event) $event.preventDefault();
 
-      modalService.openConnectionManager(state)
-        .result
-        .then(function() {
-          $rootScope.setTitle(pageTitle);
+      var connectTabName = 'Connect';
+
+      if (!tabCache.existsByName(connectTabName)) {
+        tabCache.add({
+          type: tabCache.TYPES.PAGE,
+          iconClassName: 'fa fa-server',
+          name: connectTabName,
+          src: __dirname + '/components/connect/connect.html'
         });
+      } else {
+        tabCache.activateByName(connectTabName);
+      }
     }
 
     function showSettings($event) {
