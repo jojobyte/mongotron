@@ -15,10 +15,54 @@
     </div>
     <!-- Server List -->
     <div class="connect-server-list" ng-show="currentScreen === screens.LIST">
-      <ul>
-        <div class="alert alert-info" ng-show="!connections.length">
-          Your don't have any connections yet. Use the Add button to create a new connection.
-        </div>
+      <div class="alert alert-info" ng-show="!connections.length">
+        Your don't have any connections yet. Use the Add button to create a new connection.
+      </div>
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Address
+            </th>
+            <th>
+              Database
+            </th>
+            <th>
+              Edit
+            </th>
+            <th>
+              Remove
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="connection in connections" ng-class="{ 'active' : connection.selected }">
+            <td ng-click="selectConnection(connection)">
+              {{ connection.name }}
+            </td>
+            <td>
+              {{ connection.host + ':' + connection.port }}
+            </td>
+            <td>
+              {{ connection.database.name }}
+            </td>
+            <td class="center">
+              <a class="edit" href="#" ng-click="changeScreen(screens.EDIT, connection, $event)" uib-tooltip="Edit Connection" tooltip-popup-delay="600">
+                <i class="fa fa-pencil"></i>
+              </a>
+            </td>
+            <td class="center">
+              <a class="remove" href="#" ng-click="changeScreen(screens.REMOVE, connection, $event)" uib-tooltip="Delete Connection" tooltip-popup-delay="600">
+                <i class="fa fa-times"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <ul>
         <li ng-repeat="connection in connections" ng-class="{ 'active' : connection.selected }" ng-show="connections.length">
           <a class="name" href="#" ng-click="selectConnection(connection, $event)">
             <i class="icon-connected fa fa-check-circle-o"></i> {{ connection.name }}
@@ -32,7 +76,7 @@
             </a>
           </span>
         </li>
-      </ul>
+      </ul> -->
     </div>
     <!-- Server Add -->
     <div class="server-add clearfix" ng-show="currentScreen === screens.ADD">
@@ -112,7 +156,7 @@
       <button class="btn btn-default" ng-click="close()">
         Cancel
       </button>
-      <button class="btn btn-primary" ng-click="connect($event)" ng-disabled="!connectionSelected()">
+      <button class="btn btn-primary" ng-click="connect($event)" ng-disabled="!connectionSelected()" tabindex="1">
         Connect
       </button>
     </div>
